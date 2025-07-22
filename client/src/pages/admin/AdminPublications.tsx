@@ -1,8 +1,7 @@
-import React, { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { Link } from "react-router-dom";
 import api from "../../services/api";
 import toast from "react-hot-toast";
-import { format } from "date-fns";
 import type { Publication } from "../../types";
 import {
   CreateIcon,

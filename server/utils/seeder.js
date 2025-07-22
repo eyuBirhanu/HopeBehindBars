@@ -12,10 +12,10 @@ if (!process.env.MONGO_URI) {
 }
 
 const adminUsers = [
-  { email: 'eyubirhanu01@gmail.com', password: 'strongPassword1!' },
-  { email: 'admin2@example.com', password: 'strongPassword2!' },
-  { email: 'admin3@example.com', password: 'strongPassword3!' },
-  { email: 'admin4@example.com', password: 'strongPassword4!' },
+  { email: 'eyubirhanu01@gmail.com', password: 'T9w#qL83@zRu!Fd7' },
+  { email: 'hadebacho@gmail.com', password: 'Xm4$Gn28!eKp@Vt1' },
+  // { email: 'admin3@example.com', password: 'strongPassword3!' },
+  // { email: 'admin4@example.com', password: 'strongPassword4!' },
 ];
 
 const importData = async () => {

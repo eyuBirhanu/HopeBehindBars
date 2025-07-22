@@ -1,5 +1,3 @@
-import React from "react";
-
 const FounderSection = () => (
   <section id="story" className="bg-white flex justify-center py-20 md:py-28">
     <div className="container w-11/12 mx-auto px-4">

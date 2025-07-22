@@ -1,6 +1,4 @@
 import React, { useState } from "react";
-import SectionIndicator from "./SectionIndicator"; // Assuming this component exists
-
 const faqData = [
   {
     id: "q1",

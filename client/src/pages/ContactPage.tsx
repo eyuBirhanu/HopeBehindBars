@@ -1,4 +1,3 @@
-import React from "react";
 import ContactForm from "../components/contact/ContactForm";
 import SEO from "../components/common/SEO";
 

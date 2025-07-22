@@ -1,5 +1,3 @@
-import React from "react";
-
 const Logo = ({ className }: { className?: string }) => (
   <svg
     viewBox="0 0 352 89"

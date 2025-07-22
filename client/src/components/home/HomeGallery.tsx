@@ -1,4 +1,3 @@
-import React from "react";
 import { Link } from "react-router-dom";
 import { useInView } from "react-intersection-observer";
 import SectionIndicator from "../common/SectionIndicator";
@@ -35,10 +34,13 @@ const previewImages = [
 ];
 
 const HomeGallery = () => {
-  const { ref, inView } = useInView({ triggerOnce: true, threshold: 0.1 });
+  const { ref } = useInView({ triggerOnce: true, threshold: 0.1 });
 
   return (
-    <section ref={ref} className="bg-white w-11/12 py-20 md:py-28 overflow-hidden">
+    <section
+      ref={ref}
+      className="bg-white w-11/12 py-20 md:py-28 overflow-hidden"
+    >
       <div className="container  mx-auto px-4">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-12">
           <div>
@@ -57,7 +59,7 @@ const HomeGallery = () => {
 
       <div className="w-full relative">
         <div className="flex gap-6 overflow-x-auto snap-x snap-mandatory pb-8 pl-4 pr-4 md:pl-8 md:pr-8 lg:pl-container lg:pr-container">
-          {previewImages.map((item, index) => (
+          {previewImages.map((item) => (
             <Link
               to="/gallery"
               key={item.id}

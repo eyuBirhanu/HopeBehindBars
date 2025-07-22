@@ -11,7 +11,7 @@ const GalleryPage: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [loadingMore, setLoadingMore] = useState(false);
   const [hasMore, setHasMore] = useState(true);
-  const [page, setPage] = useState(1);
+  const [_page, setPage] = useState(1);
   const [filters, setFilters] = useState({ category: "All", search: "" });
   const [selectedItem, setSelectedItem] = useState<GalleryItem | null>(null);
 
