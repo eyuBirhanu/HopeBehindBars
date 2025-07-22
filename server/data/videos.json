@@ -1,0 +1,37 @@
+[
+  {
+    "id": "vid001",
+    "youtubeId": "48Lh6z_2Vgo",
+    "title": "A New Beginning: Maria's Story",
+    "description": "Hear directly from Maria, a recent graduate of our entrepreneurship program, as she shares her journey of hope and transformation.",
+    "category": "Testimonials"
+  },
+  {
+    "id": "vid002",
+    "youtubeId": "h14_o2a25Co",
+    "title": "Inside Our Skills Workshop",
+    "description": "A behind-the-scenes look at our vocational training programs, where women learn valuable trades for a self-sufficient future.",
+    "category": "Program Highlights"
+  },
+  {
+    "id": "vid003",
+    "youtubeId": "U3aWd-h12aU",
+    "title": "The Power of Community Support",
+    "description": "Our volunteers and partners discuss the importance of community in the reintegration process and the impact of our collaborative efforts.",
+    "category": "Community Stories"
+  },
+  {
+    "id": "vid004",
+    "youtubeId": "h4eF9J3A6-c",
+    "title": "Reconnecting Families",
+    "description": "An emotional look at our family support initiatives, helping mothers maintain and strengthen their crucial bond with their children.",
+    "category": "Testimonials"
+  },
+  {
+    "id": "vid005",
+    "youtubeId": "Xk8zShI6gNY",
+    "title": "Launching 'Hopeful Creations'",
+    "description": "Follow the journey of a group of women who used their new skills to launch a successful cooperative business upon release.",
+    "category": "Program Highlights"
+  }
+]

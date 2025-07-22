@@ -1,0 +1,66 @@
+[
+  {
+    "id": "img001",
+    "imageUrl": "https://images.unsplash.com/photo-1519452635265-7b1fbfd1e4e0?q=80&w=2070&auto=format&fit=crop",
+    "title": "Signing the Partnership Agreement",
+    "description": "A landmark moment as we formalize our collaboration with the correctional facility to launch new programs.",
+    "category": "Partnerships",
+    "date": "2024-03-15"
+  },
+  {
+    "id": "img002",
+    "imageUrl": "https://images.unsplash.com/photo-1543269865-cbf427effbad?q=80&w=2070&auto=format&fit=crop",
+    "title": "First Digital Literacy Class",
+    "description": "Empowering women with essential computer skills for a brighter future upon release.",
+    "category": "Education",
+    "date": "2024-04-22"
+  },
+  {
+    "id": "img003",
+    "imageUrl": "https://images.unsplash.com/photo-1673257037475-9d9ce48b98ae?q=80&w=387&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "title": "Distribution of Care Packages",
+    "description": "Delivering hygiene kits and baby supplies, restoring dignity and providing comfort.",
+    "category": "Support",
+    "date": "2024-05-01"
+  },
+  {
+    "id": "img004",
+    "imageUrl": "https://images.unsplash.com/photo-1524178232363-1fb2b075b655?q=80&w=2070&auto=format&fit=crop",
+    "title": "Group Mentorship Session",
+    "description": "Volunteers and participants share stories and build a supportive community.",
+    "category": "Education",
+    "date": "2024-05-10"
+  },
+  {
+    "id": "img005",
+    "imageUrl": "https://images.unsplash.com/photo-1741183395568-c56c86e3dfd0?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "title": "Tailoring Workshop in Action",
+    "description": "Learning a valuable trade. Every stitch is a step towards self-sufficiency.",
+    "category": "Skills Training",
+    "date": "2024-05-18"
+  },
+  {
+    "id": "img006",
+    "imageUrl": "https://images.unsplash.com/photo-1531058020387-3be344556be6?q=80&w=2070&auto=format&fit=crop",
+    "title": "Community Outreach Event",
+    "description": "Engaging with local leaders to strengthen our impact and build new partnerships.",
+    "category": "Partnerships",
+    "date": "2024-06-05"
+  },
+  {
+    "id": "img007",
+    "imageUrl": "https://images.unsplash.com/photo-1519340072-67142643a2ea?q=80&w=1954&auto=format&fit=crop",
+    "title": "Family Reconnection Day",
+    "description": "A powerful day focused on strengthening the bonds between mothers and their children.",
+    "category": "Support",
+    "date": "2024-06-12"
+  },
+  {
+    "id": "img008",
+    "imageUrl": "https://images.unsplash.com/photo-1556740738-b6a63e27c4df?q=80&w=2070&auto=format&fit=crop",
+    "title": "First Business Startup Grant",
+    "description": "Celebrating a participant receiving her seed funding to launch a business upon release.",
+    "category": "Skills Training",
+    "date": "2024-06-20"
+  }
+]

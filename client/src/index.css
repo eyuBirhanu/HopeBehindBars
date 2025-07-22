@@ -1,0 +1,32 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+/* Custom styles for the homepage gallery swiper navigation */
+/* Custom styles for the homepage gallery swiper navigation */
+.home-gallery-swiper {
+  /* This sets the arrow color. We use !important to override any Swiper defaults. */
+  --swiper-navigation-color: #9ca3af !important; /* Tailwind's gray-400 */
+  --swiper-navigation-size: 2.5rem; /* A bit larger for easier clicking without a background */
+}
+
+/* On hover, change the arrow color to black */
+.home-gallery-swiper .swiper-button-next:hover,
+.home-gallery-swiper .swiper-button-prev:hover {
+  --swiper-navigation-color: #111827 !important; /* Your brand-dark-gray */
+}
+
+/* Explicitly remove any background Swiper might try to add */
+.home-gallery-swiper .swiper-button-next,
+.home-gallery-swiper .swiper-button-prev {
+  background: none !important;
+  width: auto;
+  height: auto;
+}
+
+/* Adjust position slightly for better alignment without the background circle */
+.home-gallery-swiper .swiper-button-next {
+    right: 10px;
+}
+.home-gallery-swiper .swiper-button-prev {
+    left: 10px;
+}
