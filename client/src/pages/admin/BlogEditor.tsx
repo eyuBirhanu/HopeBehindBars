@@ -209,7 +209,7 @@ const BlogEditor = () => {
   };
 
   const inputStyles =
-    "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-brand-sky-blue focus:ring-brand-sky-blue";
+    "mt-1 block w-full rounded-md border border-gray-300 shadow-sm focus:border-brand-sky-blue focus:ring-brand-sky-blue";
 
   return (
     <div className="max-w-4xl mx-auto bg-white p-8 rounded-lg shadow-xl">

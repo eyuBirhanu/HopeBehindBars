@@ -70,7 +70,6 @@ const GalleryPage: React.FC = () => {
       <SEO
         title="Gallery"
         description="Explore moments of impact, transformation, and hope from our work across the country through our official gallery."
-        url="/impact/gallery"
       />
       <ImageLightbox
         item={selectedItem}

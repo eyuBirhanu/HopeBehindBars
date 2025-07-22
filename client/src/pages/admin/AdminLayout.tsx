@@ -12,6 +12,7 @@ import {
   MessageIcon,
   LogoutIcon,
   MenuIcon,
+  NotificationIcon,
 } from "../../components/common/admin/AdminIcons";
 
 const adminNavLinks = [
@@ -24,6 +25,7 @@ const adminNavLinks = [
     text: "Publications",
     icon: <PublicationIcon />,
   },
+  { to: "/admin/subscribe", text: "Subscribers", icon: <NotificationIcon /> },
   { to: "/admin/volunteers", text: "Volunteers", icon: <VolunteerIcon /> },
   { to: "/admin/messages", text: "Messages", icon: <MessageIcon /> },
 ];

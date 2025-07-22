@@ -6,6 +6,7 @@ import {
   PublicationIcon,
   VolunteerIcon,
   MessageIcon,
+  NotificationIcon
 } from "../../components/common/admin/AdminIcons";
 import SEO from "../../components/common/SEO";
 
@@ -33,6 +34,12 @@ const dashboardCards = [
     title: "Manage Publications",
     description: "List news articles and links.",
     icon: <PublicationIcon />,
+  },
+  {
+    to: "/admin/subscribe",
+    title: "Manage subscribers",
+    description: "View and manage email subscribers.",
+    icon: <NotificationIcon />,
   },
   {
     to: "/admin/volunteers",

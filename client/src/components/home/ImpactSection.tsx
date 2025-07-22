@@ -10,7 +10,7 @@ const impactStats = [
     value: 20,
     suffix: "+",
     label: "Prisons reached, providing vital support and educational programs.",
-    link: "/impact/stories",
+    link: "/impact/videos",
   },
   {
     value: 50000,
@@ -47,7 +47,7 @@ const ImpactSection: React.FC = () => {
               </h2>
             </div>
             <div className="hidden lg:flex lg:justify-end">
-              <Link to="/impact">
+              <Link to="/impact/gallery">
                 <Button size="lg">See Our Full Impact</Button>
               </Link>
             </div>

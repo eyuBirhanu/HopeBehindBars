@@ -33,6 +33,7 @@ import VideoEditor from "./pages/admin/VideoEditor";
 import AdminPublications from "./pages/admin/AdminPublications";
 import PublicationEditor from "./pages/admin/PublicationEditor";
 import AdminMessages from "./pages/admin/AdminMessages";
+import AdminSubscribers from "./pages/admin/AdminSubscribers";
 
 const App: React.FC = () => {
   return (
@@ -77,6 +78,7 @@ const App: React.FC = () => {
             <Route path="volunteers" element={<AdminVolunteers />} />
             <Route path="videos" element={<AdminVideos />} />
             <Route path="videos/new" element={<VideoEditor />} />
+            <Route path="subscribe" element={<AdminSubscribers />} />
             <Route path="videos/edit/:id" element={<VideoEditor />} />
             <Route path="publications" element={<AdminPublications />} />
             <Route path="publications/new" element={<PublicationEditor />} />

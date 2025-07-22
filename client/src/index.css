@@ -30,3 +30,12 @@
 .home-gallery-swiper .swiper-button-prev {
     left: 10px;
 }
+
+/* Base styles for the TipTap (ProseMirror) editor */
+.ProseMirror {
+  white-space: pre-wrap;
+}
+
+.ProseMirror:focus {
+  outline: none;
+}
