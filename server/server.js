@@ -31,4 +31,6 @@ app.use('/api/publications', require('./routes/publicationRoutes'));
 
 app.use('/api/messages', require('./routes/messageRoutes'));
 
+app.use('/api/setup', require('./routes/setupRoutes'));
+
 module.exports = app;
