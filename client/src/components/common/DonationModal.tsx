@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { loadStripe } from "@stripe/stripe-js";
-import axios from "axios";
 import toast from "react-hot-toast";
 import {
   CreditCardIcon,
   BankIcon,
   CloseIcon,
 } from "../common/admin/AdminIcons";
+import api from "../../services/api";
 
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
 
@@ -19,7 +19,7 @@ interface DonationModalProps {
 const amountTiers = [25, 50, 100];
 const bankDetails = {
   accountName: "Hope Behind Bars Org.",
-  accountNumber: "1000123456789",
+  accountNumber: "....",
   bank: "Commercial Bank of Ethiopia",
 };
 
@@ -71,10 +71,10 @@ const DonationModal: React.FC<DonationModalProps> = ({
     }
 
     try {
-      const response = await axios.post(
-        "/api/payments/create-checkout-session",
-        { amount: amountToDonate, frequency }
-      );
+      const response = await api.post("/api/payments/create-checkout-session", {
+        amount: amountToDonate,
+        frequency,
+      });
       const { id: sessionId } = response.data;
       const stripe = await stripePromise;
       if (stripe) {

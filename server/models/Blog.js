@@ -9,4 +9,4 @@ const BlogSchema = new mongoose.Schema({
   authorLinkedin: { type: String },
 }, { timestamps: true });
 
-module.exports = mongoose.model('Blog', BlogSchema);
+module.exports = mongoose.model('Blog', BlogSchema)

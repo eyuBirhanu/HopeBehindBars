@@ -2,11 +2,10 @@ import React, { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import type { SubmitHandler } from "react-hook-form";
 import { useForm } from "react-hook-form";
-import axios from "axios";
 import toast from "react-hot-toast";
-import { useAuth } from "../../context/AuthContext";
 import { format } from "date-fns";
 import SEO from "../../components/common/SEO";
+import api from "../../services/api";
 
 interface GalleryFormData {
   title: string;
@@ -26,13 +25,12 @@ const GalleryEditor: React.FC = () => {
     formState: { errors, isSubmitting },
   } = useForm<GalleryFormData>();
   const navigate = useNavigate();
-  const { token } = useAuth();
 
   useEffect(() => {
-    if (isEditing) {
+    if (isEditing && id) {
       const fetchItem = async () => {
         try {
-          const { data } = await axios.get(`/api/gallery/${id}`);
+          const { data } = await api.get(`/api/gallery/${id}`);
           setValue("title", data.title);
           setValue("description", data.description);
           setValue("category", data.category);
@@ -68,19 +66,14 @@ const GalleryEditor: React.FC = () => {
       isEditing ? "Updating item..." : "Creating item..."
     );
     try {
-      const config = {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "multipart/form-data",
-        },
-      };
       if (isEditing) {
-        await axios.put(`/api/gallery/${id}`, formData, config);
-        toast.success("Gallery item updated!", { id: toastId });
+        await api.put(`/api/gallery/${id}`, formData);
       } else {
-        await axios.post("/api/gallery", formData, config);
-        toast.success("Gallery item created!", { id: toastId });
+        await api.post("/api/gallery", formData);
       }
+      toast.success(`Gallery item ${isEditing ? "updated" : "created"}!`, {
+        id: toastId,
+      });
       navigate("/admin/gallery");
     } catch (error: any) {
       const errorMessage =
@@ -91,11 +84,14 @@ const GalleryEditor: React.FC = () => {
   };
 
   const inputStyles =
-    "mt-1 block w-full rounded-md px-2 border min-h-[45px] border-gray-300 shadow-sm focus:border-brand-sky-blue focus:ring-brand-sky-blue";
+    "mt-1 block w-full rounded-md px-4 py-2.5 border border-gray-300 shadow-sm focus:border-brand-sky-blue focus:ring-1 focus:ring-brand-sky-blue";
 
   return (
     <div className="max-w-4xl mx-auto bg-white p-8 rounded-lg shadow-xl">
-      <SEO title="Add/Edit Gallery Item" noIndex={true} />
+      <SEO
+        title={isEditing ? "Edit Gallery Item" : "Create Gallery Item"}
+        noIndex={true}
+      />
       <h1 className="font-display text-3xl font-bold mb-8">
         {isEditing ? "Edit" : "Create"} Gallery Item
       </h1>
@@ -201,7 +197,7 @@ const GalleryEditor: React.FC = () => {
           )}
           {isEditing && (
             <p className="text-xs text-gray-500 mt-1">
-              Uploading new images will replace existing ones.
+              Uploading new images will replace all existing ones for this item.
             </p>
           )}
         </div>

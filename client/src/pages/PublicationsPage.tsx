@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
 import type { Publication } from "../types";
 import { format } from "date-fns";
 import SEO from "../components/common/SEO";
+import api from "../services/api";
 
 const PublicationCard = ({ pub }: { pub: Publication }) => (
   <a
@@ -40,7 +40,7 @@ const PublicationsPage = () => {
   useEffect(() => {
     const fetchPublications = async () => {
       try {
-        const { data } = await axios.get("/api/publications");
+        const { data } = await api.get("/api/publications");
         setPublications(data || []);
       } catch (error) {
         console.error("Failed to fetch publications", error);

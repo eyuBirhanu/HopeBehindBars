@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import VideoCard from "../components/videos/VideoCard";
 import type { Video } from "../types"; 
 import { EmptyStateIcon } from "../components/common/admin/AdminIcons"; 
 import SEO from "../components/common/SEO";
+import api from "../services/api";
 
 const categories = [
   "All",
@@ -21,7 +21,7 @@ const ImpactVideosPage: React.FC = () => {
     const fetchVideos = async () => {
       try {
         setLoading(true);
-        const { data } = await axios.get("/api/videos", {
+        const { data } = await api.get("/api/videos", {
           params: { category: activeCategory === "All" ? "" : activeCategory },
         });
         setVideos(data.videos || []);

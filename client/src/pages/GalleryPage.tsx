@@ -1,57 +1,120 @@
 import React, { useState, useEffect, useCallback } from "react";
-import axios from "axios";
+import api from "../services/api";
 import type { GalleryItem } from "../types";
 import ImageLightbox from "../components/gallery/ImageLightbox";
-import FilterBar from "../components/gallery/FilterBar";
-import { EmptyStateIcon } from "../components/common/admin/AdminIcons";
 import SEO from "../components/common/SEO";
+
+const EmptyStateIcon = () => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    className="mx-auto h-12 w-12 text-gray-400"
+    fill="none"
+    viewBox="0 0 24 24"
+    stroke="currentColor"
+  >
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth={2}
+      d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
+    />
+  </svg>
+);
+
+const categories = [
+  "All",
+  "Partnerships",
+  "Education",
+  "Support",
+  "Skills Training",
+];
+
+const FilterBar = ({
+  onFilterChange,
+}: {
+  onFilterChange: (filters: { category: string; search: string }) => void;
+}) => {
+  const [category, setCategory] = useState("All");
+  const [search, setSearch] = useState("");
+
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      onFilterChange({ category, search });
+    }, 500); // Debounce search input
+    return () => clearTimeout(handler);
+  }, [category, search, onFilterChange]);
+
+  return (
+    <div className="my-12 flex flex-col md:flex-row items-center justify-between gap-4 border-y border-gray-200 py-4">
+      <div className="flex flex-wrap items-center gap-2">
+        {categories.map((cat) => (
+          <button
+            key={cat}
+            onClick={() => setCategory(cat)}
+            className={`px-4 py-2 text-sm font-semibold rounded-full transition-colors ${
+              category === cat
+                ? "bg-brand-dark-gray text-white"
+                : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+            }`}
+          >
+            {cat}
+          </button>
+        ))}
+      </div>
+      <input
+        type="text"
+        placeholder="Search by keyword..."
+        value={search}
+        onChange={(e) => setSearch(e.target.value)}
+        className="w-full md:w-64 px-4 py-2 border border-gray-300 rounded-full focus:ring-brand-sky-blue focus:border-brand-sky-blue"
+      />
+    </div>
+  );
+};
 
 const GalleryPage: React.FC = () => {
   const [items, setItems] = useState<GalleryItem[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [page, setPage] = useState(1);
+  const [filters, setFilters] = useState({ category: "All", search: "" });
+  const [initialLoading, setInitialLoading] = useState(true);
   const [loadingMore, setLoadingMore] = useState(false);
   const [hasMore, setHasMore] = useState(true);
-  const [_page, setPage] = useState(1);
-  const [filters, setFilters] = useState({ category: "All", search: "" });
   const [selectedItem, setSelectedItem] = useState<GalleryItem | null>(null);
 
   const fetchItems = useCallback(
-    async (
-      currentPage: number,
-      currentFilters: typeof filters,
-      isNewFilter: boolean
-    ) => {
-      isNewFilter ? setLoading(true) : setLoadingMore(true);
-      if (isNewFilter) setItems([]);
+    async (isNewFilterSearch: boolean) => {
+      const pageToFetch = isNewFilterSearch ? 1 : page;
+      isNewFilterSearch ? setInitialLoading(true) : setLoadingMore(true);
 
       try {
-        const { data } = await axios.get("/api/gallery", {
+        const { data } = await api.get("/api/gallery", {
           params: {
-            page: currentPage,
+            page: pageToFetch,
             limit: 9,
-            category:
-              currentFilters.category === "All" ? "" : currentFilters.category,
-            search: currentFilters.search,
+            category: filters.category === "All" ? "" : filters.category,
+            search: filters.search,
           },
         });
-        setItems((prev) =>
-          isNewFilter ? data.images : [...prev, ...data.images]
+
+        setItems((prevItems) =>
+          isNewFilterSearch ? data.images : [...prevItems, ...data.images]
         );
         setHasMore(data.hasMore);
+        setPage(pageToFetch + 1);
       } catch (error) {
         console.error("Failed to fetch gallery items", error);
       } finally {
-        setLoading(false);
+        setInitialLoading(false);
         setLoadingMore(false);
       }
     },
-    []
+    [page, filters]
   );
 
   useEffect(() => {
     setPage(1);
-    fetchItems(1, filters, true);
-  }, [filters, fetchItems]);
+    fetchItems(true);
+  }, [filters]);
 
   const NoResultsFound = () => (
     <div className="col-span-full text-center py-16 px-4 bg-white rounded-lg shadow-sm">
@@ -75,8 +138,9 @@ const GalleryPage: React.FC = () => {
         item={selectedItem}
         onClose={() => setSelectedItem(null)}
       />
+
       <main className="bg-neutral-light min-h-screen">
-        <div className="container mx-auto px-4 py-16">
+        <div className="container mx-auto px-4 py-16 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h1 className="font-display text-5xl font-bold text-brand-dark-gray">
               Our Gallery
@@ -85,8 +149,10 @@ const GalleryPage: React.FC = () => {
               Explore moments of impact, partnership, and empowerment.
             </p>
           </div>
+
           <FilterBar onFilterChange={setFilters} />
-          {loading && items.length === 0 && (
+
+          {initialLoading ? (
             <div className="mt-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
               {Array.from({ length: 6 }).map((_, i) => (
                 <div
@@ -95,8 +161,7 @@ const GalleryPage: React.FC = () => {
                 ></div>
               ))}
             </div>
-          )}
-          {!loading && items.length > 0 && (
+          ) : items.length > 0 ? (
             <div className="mt-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
               {items.map((item) => (
                 <div
@@ -117,25 +182,25 @@ const GalleryPage: React.FC = () => {
                 </div>
               ))}
             </div>
-          )}
-          {!loading && items.length === 0 && (
+          ) : (
             <div className="mt-12">
               <NoResultsFound />
             </div>
           )}
+
           <div className="text-center mt-12">
-            {loadingMore ? (
-              <p className="text-gray-500">Loading more...</p>
-            ) : hasMore && items.length > 0 ? (
+            {hasMore && !initialLoading && (
               <button
-                onClick={() => setPage((p) => p + 1)}
-                className="bg-brand-dark-gray text-white font-bold py-3 px-8 rounded-lg hover:bg-black"
+                onClick={() => fetchItems(false)}
+                disabled={loadingMore}
+                className="bg-brand-dark-gray text-white font-bold py-3 px-8 rounded-lg hover:bg-black disabled:opacity-50"
               >
-                Load More
+                {loadingMore ? "Loading..." : "Load More"}
               </button>
-            ) : items.length > 0 ? (
+            )}
+            {!hasMore && items.length > 0 && (
               <p className="text-gray-500">You've reached the end.</p>
-            ) : null}
+            )}
           </div>
         </div>
       </main>

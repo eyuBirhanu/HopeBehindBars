@@ -1,7 +1,7 @@
 import type { SubmitHandler } from "react-hook-form";
 import { useForm } from "react-hook-form";
-import axios from "axios";
 import toast from "react-hot-toast";
+import api from "../../services/api";
 
 interface ContactFormData {
   name: string;
@@ -20,7 +20,7 @@ const ContactForm = () => {
   const onSubmit: SubmitHandler<ContactFormData> = async (data) => {
     const toastId = toast.loading("Sending your message...");
     try {
-      await axios.post("/api/messages", data);
+      await api.post("/api/messages", data);
       toast.success(
         "Message sent successfully! We will get back to you soon.",
         { id: toastId }

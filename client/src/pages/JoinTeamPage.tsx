@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import type { SubmitHandler } from "react-hook-form";
 import { useForm } from "react-hook-form";
-import axios from "axios";
 import toast from "react-hot-toast";
 import SEO from "../components/common/SEO";
+import api from "../services/api";
 
 // --- Form Data Type ---
 interface VolunteerFormData {
@@ -84,7 +84,7 @@ const JoinTeamPage: React.FC = () => {
   const onSubmit: SubmitHandler<VolunteerFormData> = async (data) => {
     const loadingToast = toast.loading("Submitting your application...");
     try {
-      await axios.post("/api/volunteer", data);
+      await api.post("/api/volunteer", data);
       toast.dismiss(loadingToast);
       toast.success(
         "Application submitted successfully! We will be in touch soon."

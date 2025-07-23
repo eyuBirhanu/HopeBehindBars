@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { NavLink, Link, useLocation } from "react-router-dom";
 import type { NavItem, NavLink as NavLinkType } from "../../types";
-import Logo from "./Logo"; 
+import Logo from "./Logo";
 import { Button } from "./Button";
 import DonationModal from "./DonationModal";
 

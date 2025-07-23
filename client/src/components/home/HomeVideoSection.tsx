@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import axios from "axios";
 import SectionIndicator from "../common/SectionIndicator";
 import { YouTubePlayer } from "../videos/VideoCard";
 import type { Video } from "../../types";
+import api from "../../services/api";
 
 const HomeVideoSection: React.FC = () => {
   const [featuredVideo, setFeaturedVideo] = useState<Video | null>(null);
@@ -12,7 +12,7 @@ const HomeVideoSection: React.FC = () => {
   useEffect(() => {
     const fetchLatestVideo = async () => {
       try {
-        const { data } = await axios.get("/api/videos", {
+        const { data } = await api.get("/api/videos", {
           params: { limit: 1 },
         });
         if (data.videos && data.videos.length > 0) {

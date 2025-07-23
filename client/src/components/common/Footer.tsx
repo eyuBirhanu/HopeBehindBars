@@ -2,9 +2,9 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import type { SubmitHandler } from "react-hook-form";
-import axios from "axios";
 import toast from "react-hot-toast";
 import Logo from "./Logo";
+import api from "../../services/api";
 
 interface NewsletterFormData {
   email: string;
@@ -59,7 +59,7 @@ const Footer: React.FC = () => {
   const onSubmit: SubmitHandler<NewsletterFormData> = async (data) => {
     const loadingToast = toast.loading("Subscribing...");
     try {
-      await axios.post("/api/subscribe", data);
+      await api.post("/api/subscribe", data);
       toast.success("Thank you for subscribing!", { id: loadingToast });
       reset();
     } catch (error: any) {

@@ -7,7 +7,6 @@ exports.getBlogs = async (req, res) => {
   } catch (error) { res.status(500).json({ message: 'Server Error' }); }
 };
 
-// Get single blog by ID (Public)
 exports.getBlogById = async (req, res) => {
   try {
     const blog = await Blog.findById(req.params.id);
@@ -16,26 +15,31 @@ exports.getBlogById = async (req, res) => {
   } catch (error) { res.status(500).json({ message: 'Server Error' }); }
 };
 
-// --- CREATE a blog post (Robust Version) ---
+
 exports.createBlog = async (req, res) => {
   try {
     const { title, content, excerpt, authorName, authorLinkedin } = req.body;
-    if (!title || !content || !excerpt || !authorName) {
-        return res.status(400).json({ message: 'Title, content, excerpt, and author name are required.' });
+    if (!title || !excerpt || !authorName) {
+        return res.status(400).json({ message: 'Title, excerpt, and author name are required.' });
+    }
+    if (!content || content === '<p></p>') {
+        return res.status(400).json({ message: 'Content cannot be empty.' });
     }
     if (!req.file) {
         return res.status(400).json({ message: 'A feature image is required.' });
     }
+
     const newBlog = new Blog({ title, content, excerpt, authorName, authorLinkedin, imageUrl: req.file.path });
-    const savedBlog = await newBlog.save();
-    res.status(201).json(savedBlog);
+    await newBlog.save();
+    res.status(201).json(newBlog);
   } catch (error) {
     console.error("Create Blog Error:", error);
     res.status(500).json({ message: 'Server Error: ' + error.message });
   }
 };
 
-// --- UPDATE a blog post (Robust Version) ---
+
+
 exports.updateBlog = async (req, res) => {
   try {
     const { title, content, excerpt, authorName, authorLinkedin } = req.body;
@@ -60,7 +64,6 @@ exports.updateBlog = async (req, res) => {
   }
 };
 
-// Delete a blog (Protected)
 exports.deleteBlog = async (req, res) => {
   try {
     const blog = await Blog.findByIdAndDelete(req.params.id); // More efficient

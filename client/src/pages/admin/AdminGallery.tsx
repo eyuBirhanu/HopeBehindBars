@@ -1,10 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { Link } from "react-router-dom";
-import axios from "axios";
+import api from "../../services/api";
 import toast from "react-hot-toast";
-import { useAuth } from "../../context/AuthContext";
-import type { GalleryItem } from "../../types";
 import { format } from "date-fns";
+import type { GalleryItem } from "../../types";
 import SEO from "../../components/common/SEO";
 
 const CreateIcon = () => (
@@ -70,18 +69,18 @@ const EditIcon = () => (
 const AdminGallery: React.FC = () => {
   const [items, setItems] = useState<GalleryItem[]>([]);
   const [loading, setLoading] = useState(true);
-  const { token } = useAuth();
 
-  const fetchItems = async () => {
+  const fetchItems = useCallback(async () => {
     try {
       setLoading(true);
-      const { data } = await axios.get("/api/gallery");
-
+      const { data } = await api.get("/api/gallery");
       if (data && Array.isArray(data.images)) {
         setItems(data.images);
+      } else if (Array.isArray(data)) {
+        setItems(data);
       } else {
         setItems([]);
-        toast.error("Received invalid data from server.");
+        toast.error("Received unexpected data from the server.");
       }
     } catch (error) {
       toast.error("Failed to fetch gallery items.");
@@ -89,11 +88,21 @@ const AdminGallery: React.FC = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
   useEffect(() => {
     fetchItems();
-  }, []);
+  }, [fetchItems]);
+
+  const performDelete = async (id: string) => {
+    try {
+      await api.delete(`/api/gallery/${id}`);
+      toast.success("Item deleted successfully!");
+      fetchItems();
+    } catch (error) {
+      toast.error("Failed to delete item.");
+    }
+  };
 
   const handleDelete = (id: string, title: string) => {
     toast((t) => (
@@ -102,7 +111,7 @@ const AdminGallery: React.FC = () => {
         <p className="text-sm">This action cannot be undone.</p>
         <div className="mt-4 flex gap-2">
           <button
-            className="w-full bg-brand-rose text-white font-bold py-2 px-4 rounded-lg text-sm"
+            className="w-full bg-brand-rose  text-white font-bold py-2 px-4 rounded-lg text-sm"
             onClick={() => {
               performDelete(id);
               toast.dismiss(t.id);
@@ -119,17 +128,6 @@ const AdminGallery: React.FC = () => {
         </div>
       </div>
     ));
-  };
-
-  const performDelete = async (id: string) => {
-    try {
-      const config = { headers: { Authorization: `Bearer ${token}` } };
-      await axios.delete(`/api/gallery/${id}`, config);
-      toast.success("Item deleted successfully!");
-      fetchItems(); // Refresh the list
-    } catch (error) {
-      toast.error("Failed to delete item.");
-    }
   };
 
   const EmptyState = () => (
@@ -172,58 +170,52 @@ const AdminGallery: React.FC = () => {
         <EmptyState />
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-          {items.map(
-            (
-              item // This will now work correctly
-            ) => (
-              <div
-                key={item._id}
-                className="bg-white rounded-lg shadow-md overflow-hidden group"
-              >
-                <div className="relative">
-                  <img
-                    src={item.imageUrls[0]}
-                    alt={item.title}
-                    className="w-full h-48 object-cover"
-                  />
-                  <div className="absolute top-2 right-2 flex flex-col gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    <Link
-                      to={`/admin/gallery/edit/${item._id}`}
-                      className="bg-white/80 p-2 rounded-full backdrop-blur-sm hover:bg-white text-brand-dark-gray"
-                      title="Edit"
-                    >
-                      <EditIcon />
-                    </Link>
-                    <button
-                      onClick={() => handleDelete(item._id, item.title)}
-                      className="bg-white/80 p-2 rounded-full backdrop-blur-sm hover:bg-white text-brand-rose"
-                      title="Delete"
-                    >
-                      <TrashIcon />
-                    </button>
-                  </div>
-                </div>
-                <div className="p-4">
-                  <p
-                    className="font-bold text-gray-800 truncate"
-                    title={item.title}
+          {items.map((item) => (
+            <div
+              key={item._id}
+              className="bg-white rounded-lg shadow-md overflow-hidden group"
+            >
+              <div className="relative">
+                <img
+                  src={item.imageUrls[0]}
+                  alt={item.title}
+                  className="w-full h-48 object-cover"
+                />
+                <div className="absolute top-2 right-2 flex flex-col gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  <Link
+                    to={`/admin/gallery/edit/${item._id}`}
+                    className="bg-white/80 p-2 rounded-full backdrop-blur-sm hover:bg-white text-brand-dark-gray"
                   >
-                    {item.title}
-                  </p>
-                  <p className="text-sm text-gray-500">{item.category}</p>
-                  <p className="text-xs text-gray-400 mt-2">
-                    {format(new Date(item.createdAt), "MMM d, yyyy")}
-                  </p>
+                    <EditIcon />
+                  </Link>
+                  <button
+                    onClick={() => handleDelete(item._id, item.title)}
+                    className="bg-white/80 p-2 rounded-full backdrop-blur-sm hover:bg-white text-brand-rose"
+                  >
+                    <TrashIcon />
+                  </button>
                 </div>
               </div>
-            )
-          )}
+              <div className="p-4">
+                <p
+                  className="font-bold text-gray-800 truncate"
+                  title={item.title}
+                >
+                  {item.title}
+                </p>
+                <p className="text-sm text-gray-500">{item.category}</p>
+                <p className="text-xs text-gray-400 mt-2">
+                  {format(new Date(item.createdAt), "MMM d, yyyy")}
+                </p>
+              </div>
+            </div>
+          ))}
         </div>
       )}
 
       <Link
         to="/admin/gallery/new"
-        className="sm:hidden fixed bottom-6 right-6 bg-brand-sky-blue p-4 rounded-full shadow-lg text-white"
+        className="sm:hidden fixed bottom-6 right-6 ..."
       >
         <CreateIcon />
         <span className="sr-only">Add New Item</span>

@@ -1,6 +1,6 @@
 import { createContext, useState, useContext } from "react";
 import type { ReactNode } from "react";
-import axios from "axios";
+import api from "../services/api";
 
 interface AuthContextType {
   token: string | null;
@@ -20,7 +20,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const login = async (email: string, password: string) => {
     setIsLoading(true);
     try {
-      const { data } = await axios.post("/api/admin/login", {
+      const { data } = await api.post("/api/admin/login", {
         email,
         password,
       });

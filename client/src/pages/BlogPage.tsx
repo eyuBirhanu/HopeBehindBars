@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import type { Blog } from "../types";
 import { Link } from "react-router-dom";
 import { format } from "date-fns";
 import { EmptyStateIcon } from "../components/common/admin/AdminIcons"; // Reusing a nice icon
 import SEO from "../components/common/SEO";
+import api from "../services/api";
 
 // --- Reusable Blog Card Component (No changes needed) ---
 const BlogCard: React.FC<{ blog: Blog }> = ({ blog }) => (
@@ -43,7 +43,7 @@ const BlogPage: React.FC = () => {
     const fetchBlogs = async () => {
       try {
         setLoading(true);
-        const { data } = await axios.get("/api/blogs");
+        const { data } = await api.get("/api/blogs");
         setBlogs(data || []); // Ensure blogs is an array even if data is null/undefined
       } catch (error) {
         console.error("Failed to fetch blogs", error);

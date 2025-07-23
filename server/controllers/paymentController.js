@@ -9,7 +9,7 @@ exports.createCheckoutSession = async (req, res) => {
   }
 
   const sessionData = {
-    payment_method_types: ['card', 'paypal'],
+    payment_method_types: ['card'],
     line_items: [{
       price_data: {
         currency: 'usd',

@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import axios from "axios";
 import SectionIndicator from "../common/SectionIndicator";
 import ErrorState from "../common/ErrorState";
 import type { GalleryItem } from "../../types";
+import api from "../../services/api";
 
 const HomeGalleryGrid: React.FC = () => {
   const [items, setItems] = useState<GalleryItem[]>([]);
@@ -14,7 +14,7 @@ const HomeGalleryGrid: React.FC = () => {
     try {
       setLoading(true);
       setError(null);
-      const { data } = await axios.get("/api/gallery", {
+      const { data } = await api.get("/api/gallery", {
         params: { limit: 4 },
       });
 

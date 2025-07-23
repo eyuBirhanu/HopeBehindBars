@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo, useCallback } from "react";
-import api from "../../services/api"; 
+import api from "../../services/api";
 import toast from "react-hot-toast";
 import { format } from "date-fns";
 import type { VolunteerApplication } from "../../types";
@@ -71,6 +71,7 @@ const VolunteerDetailsModal = ({
           <CopyableField label="Email" text={app.email} />
           <CopyableField label="Phone" text={app.phone} />
           <CopyableField label="LinkedIn" text={app.linkedin} />
+          <CopyableField label="Twitter" text={app.twitter} />
           <div className="text-sm py-2 border-b border-gray-100">
             <span className="text-gray-500">Interest:</span>
             <p className="font-medium text-gray-800 mt-1">{app.interest}</p>
@@ -84,6 +85,10 @@ const VolunteerDetailsModal = ({
                 Details: {app.otherInterestDetail}
               </p>
             )}
+          </div>
+          <div className="text-sm py-2 border-b border-gray-100">
+            <span className="text-gray-500">Availability</span>
+            <p className="font-medium text-gray-800 mt-1">{app.availability}</p>
           </div>
           <div className="text-sm py-2">
             <span className="text-gray-500">Motivation:</span>
@@ -125,7 +130,6 @@ const VolunteerDetailsModal = ({
   );
 };
 
-// --- Main AdminVolunteers Page Component ---
 const AdminVolunteers = () => {
   const [applications, setApplications] = useState<VolunteerApplication[]>([]);
   const [loading, setLoading] = useState(true);
@@ -211,7 +215,6 @@ const AdminVolunteers = () => {
     try {
       await api.put("/api/volunteer/status", { ids: [id], status });
       toast.success("Status updated!");
-      // Optimistically update the UI to feel faster
       setApplications((prev) =>
         prev.map((app) =>
           app._id === id
@@ -226,7 +229,7 @@ const AdminVolunteers = () => {
       );
     } catch (error) {
       toast.error("Failed to update status.");
-      fetchApplications(); // Re-fetch on error to sync state
+      fetchApplications();
     }
   };
 
